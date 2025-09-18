@@ -10,8 +10,8 @@ if (!isset($_SESSION['user_id'])) {
 
 <div class="row">
     <div class="col-md-12">
-        <h2>Admin Panel</h2>
-        <p>Welcome to the admin panel. Here you can manage topics and tutorials.</p>
+        <h2><?php echo trans('admin_panel'); ?></h2>
+        <p><?php echo trans('admin_welcome'); ?></p>
     </div>
 </div>
 
@@ -19,22 +19,22 @@ if (!isset($_SESSION['user_id'])) {
     <div class="col-md-6">
         <div class="card">
             <div class="card-header">
-                Manage Topics
+                <?php echo trans('manage_topics'); ?>
             </div>
             <div class="card-body">
-                <a href="add_topic.php" class="btn btn-primary">Add Topic</a>
-                <a href="view_topics.php" class="btn btn-secondary">View Topics</a>
+                <a href="add_topic.php" class="btn btn-primary"><?php echo trans('add_topic'); ?></a>
+                <a href="view_topics.php" class="btn btn-secondary"><?php echo trans('view_topics'); ?></a>
             </div>
         </div>
     </div>
     <div class="col-md-6">
         <div class="card">
             <div class="card-header">
-                Manage Tutorials
+                <?php echo trans('manage_tutorials'); ?>
             </div>
             <div class="card-body">
-                <a href="add_tutorial.php" class="btn btn-primary">Add Tutorial</a>
-                <a href="view_tutorials.php" class="btn btn-secondary">View Tutorials</a>
+                <a href="add_tutorial.php" class="btn btn-primary"><?php echo trans('add_tutorial'); ?></a>
+                <a href="view_tutorials.php" class="btn btn-secondary"><?php echo trans('view_tutorials'); ?></a>
             </div>
         </div>
     </div>

@@ -14,11 +14,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_POST['password'];
 
     if (empty($username)) {
-        $errors[] = 'Username is required.';
+        $errors[] = trans('err_username_required');
     }
 
     if (empty($password)) {
-        $errors[] = 'Password is required.';
+        $errors[] = trans('err_password_required');
     }
 
     if (empty($errors)) {
@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             header("Location: dashboard.php");
             exit();
         } else {
-            $errors[] = 'Invalid username or password.';
+            $errors[] = trans('err_login_failed');
         }
 
         $stmt->close();
@@ -56,7 +56,7 @@ include '../includes/header.php';
     <div class="col-md-6">
         <div class="card">
             <div class="card-header">
-                Login
+                <?php echo trans('login'); ?>
             </div>
             <div class="card-body">
                 <?php if (!empty($errors)): ?>
@@ -70,14 +70,14 @@ include '../includes/header.php';
                 <?php endif; ?>
                 <form action="login.php" method="post">
                     <div class="form-group">
-                        <label for="username">Username</label>
+                        <label for="username"><?php echo trans('username'); ?></label>
                         <input type="text" name="username" id="username" class="form-control" value="<?php echo isset($username) ? htmlspecialchars($username) : ''; ?>">
                     </div>
                     <div class="form-group">
-                        <label for="password">Password</label>
+                        <label for="password"><?php echo trans('password'); ?></label>
                         <input type="password" name="password" id="password" class="form-control">
                     </div>
-                    <button type="submit" class="btn btn-primary">Login</button>
+                    <button type="submit" class="btn btn-primary"><?php echo trans('login'); ?></button>
                 </form>
             </div>
         </div>

@@ -11,23 +11,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $confirm_password = $_POST['confirm_password'];
 
     if (empty($username)) {
-        $errors[] = 'Username is required.';
+        $errors[] = trans('err_username_required');
     }
 
     if (empty($email)) {
-        $errors[] = 'Email is required.';
+        $errors[] = trans('err_email_required');
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $errors[] = 'Invalid email format.';
+        $errors[] = trans('err_email_invalid');
     }
 
     if (empty($password)) {
-        $errors[] = 'Password is required.';
+        $errors[] = trans('err_password_required');
     } elseif (strlen($password) < 6) {
-        $errors[] = 'Password must be at least 6 characters long.';
+        $errors[] = trans('err_password_min_len');
     }
 
     if ($password !== $confirm_password) {
-        $errors[] = 'Passwords do not match.';
+        $errors[] = trans('err_passwords_do_not_match');
     }
 
     if (empty($errors)) {
@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             header("Location: login.php");
             exit();
         } else {
-            $errors[] = "Registration failed. Please try again. Error: " . $stmt->error;
+            $errors[] = trans('err_registration_failed');
         }
 
         $stmt->close();
@@ -54,7 +54,7 @@ include '../includes/header.php';
     <div class="col-md-6">
         <div class="card">
             <div class="card-header">
-                Register
+                <?php echo trans('register'); ?>
             </div>
             <div class="card-body">
                 <?php if (!empty($errors)): ?>
@@ -68,22 +68,22 @@ include '../includes/header.php';
                 <?php endif; ?>
                 <form action="register.php" method="post">
                     <div class="form-group">
-                        <label for="username">Username</label>
+                        <label for="username"><?php echo trans('username'); ?></label>
                         <input type="text" name="username" id="username" class="form-control" value="<?php echo isset($username) ? htmlspecialchars($username) : ''; ?>">
                     </div>
                     <div class="form-group">
-                        <label for="email">Email</label>
+                        <label for="email"><?php echo trans('email'); ?></label>
                         <input type="email" name="email" id="email" class="form-control" value="<?php echo isset($email) ? htmlspecialchars($email) : ''; ?>">
                     </div>
                     <div class="form-group">
-                        <label for="password">Password</label>
+                        <label for="password"><?php echo trans('password'); ?></label>
                         <input type="password" name="password" id="password" class="form-control">
                     </div>
                     <div class="form-group">
-                        <label for="confirm_password">Confirm Password</label>
+                        <label for="confirm_password"><?php echo trans('confirm_password'); ?></label>
                         <input type="password" name="confirm_password" id="confirm_password" class="form-control">
                     </div>
-                    <button type="submit" class="btn btn-primary">Register</button>
+                    <button type="submit" class="btn btn-primary"><?php echo trans('register'); ?></button>
                 </form>
             </div>
         </div>
