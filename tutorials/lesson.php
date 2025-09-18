@@ -22,15 +22,20 @@ if (!$tutorial) {
     exit();
 }
 
-// Set topic_id for the sidebar to use
-$topic_id = $tutorial['topic_id'];
-
 if ($tutorial['is_premium'] && !isset($_SESSION['user_id'])) {
     $_SESSION['redirect_to'] = $_SERVER['REQUEST_URI'];
     header("Location: ../user/login.php");
     exit();
 }
 
+// Fetch all pages for the current tutorial for the new sidebar
+$stmt_all_pages = $conn->prepare("SELECT page_number, title FROM tutorial_pages WHERE tutorial_id = ? ORDER BY page_number ASC");
+$stmt_all_pages->bind_param("i", $tutorial_id);
+$stmt_all_pages->execute();
+$all_pages_result = $stmt_all_pages->get_result();
+$stmt_all_pages->close();
+
+// Fetch the current page content
 $stmt_page = $conn->prepare("SELECT title, content FROM tutorial_pages WHERE tutorial_id = ? AND page_number = ?");
 $stmt_page->bind_param("ii", $tutorial_id, $page_number);
 $stmt_page->execute();
@@ -42,15 +47,23 @@ if (!$page) {
     $page = ['title' => 'Page Not Found', 'content' => 'This page does not exist.'];
 }
 
-$stmt_total_pages = $conn->prepare("SELECT COUNT(*) as total FROM tutorial_pages WHERE tutorial_id = ?");
-$stmt_total_pages->bind_param("i", $tutorial_id);
-$stmt_total_pages->execute();
-$total_pages = $stmt_total_pages->get_result()->fetch_assoc()['total'];
-$stmt_total_pages->close();
+$total_pages = $all_pages_result->num_rows;
 ?>
 
 <div class="row">
-    <?php include '../includes/sidebar.php'; ?>
+    <div class="col-md-3">
+        <h4>Tutorial Pages</h4>
+        <div class="list-group">
+            <?php
+            if ($all_pages_result->num_rows > 0) {
+                while ($page_row = $all_pages_result->fetch_assoc()) {
+                    $active_class = ($page_row['page_number'] == $page_number) ? ' active' : '';
+                    echo '<a href="?id=' . $tutorial_id . '&page=' . $page_row['page_number'] . '" class="list-group-item list-group-item-action' . $active_class . '">' . htmlspecialchars($page_row['title']) . '</a>';
+                }
+            }
+            ?>
+        </div>
+    </div>
 
     <div class="col-md-9">
         <h2><?php echo htmlspecialchars($tutorial['title']); ?></h2>
