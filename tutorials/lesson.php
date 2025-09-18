@@ -10,7 +10,7 @@ if ($tutorial_id <= 0) {
     exit();
 }
 
-$stmt_tutorial = $conn->prepare("SELECT title, is_premium FROM tutorials WHERE id = ?");
+$stmt_tutorial = $conn->prepare("SELECT title, is_premium, topic_id FROM tutorials WHERE id = ?");
 $stmt_tutorial->bind_param("i", $tutorial_id);
 $stmt_tutorial->execute();
 $result_tutorial = $stmt_tutorial->get_result();
@@ -21,6 +21,9 @@ if (!$tutorial) {
     header("Location: /");
     exit();
 }
+
+// Set topic_id for the sidebar to use
+$topic_id = $tutorial['topic_id'];
 
 if ($tutorial['is_premium'] && !isset($_SESSION['user_id'])) {
     $_SESSION['redirect_to'] = $_SERVER['REQUEST_URI'];
@@ -36,9 +39,6 @@ $page = $result_page->fetch_assoc();
 $stmt_page->close();
 
 if (!$page) {
-    // If the page doesn't exist, maybe it's an invalid page number.
-    // For simplicity, we'll just show a "not found" message.
-    // A more robust solution would be to redirect to the first page.
     $page = ['title' => 'Page Not Found', 'content' => 'This page does not exist.'];
 }
 
@@ -50,7 +50,9 @@ $stmt_total_pages->close();
 ?>
 
 <div class="row">
-    <div class="col-md-12">
+    <?php include '../includes/sidebar.php'; ?>
+
+    <div class="col-md-9">
         <h2><?php echo htmlspecialchars($tutorial['title']); ?></h2>
         <hr>
         <h3><?php echo htmlspecialchars($page['title']); ?></h3>

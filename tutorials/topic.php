@@ -28,14 +28,12 @@ $result_tutorials = $stmt_tutorials->get_result();
 ?>
 
 <div class="row">
-    <div class="col-md-12">
+    <?php include '../includes/sidebar.php'; ?>
+
+    <div class="col-md-9">
         <h2><?php echo htmlspecialchars($topic['name']); ?> Tutorials</h2>
         <p><?php echo htmlspecialchars($topic['description']); ?></p>
-    </div>
-</div>
 
-<div class="row">
-    <div class="col-md-12">
         <div class="list-group">
             <?php if ($result_tutorials->num_rows > 0): ?>
                 <?php while ($row = $result_tutorials->fetch_assoc()): ?>
