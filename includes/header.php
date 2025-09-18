@@ -1,5 +1,5 @@
 <?php
-require_once 'language.php';
+require_once __DIR__ . '/language.php';
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $lang_to_use; ?>">
