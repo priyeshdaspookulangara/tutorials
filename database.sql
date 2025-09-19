@@ -153,6 +153,13 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
+-- Dumping data for table `users`
+--
+INSERT INTO `users` (`id`, `username`, `password`, `email`, `created_at`) VALUES
+(1, 'admin', '$2y$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy', 'admin@example.com', NOW());
+
+
+--
 -- Indexes for dumped tables
 --
 
@@ -174,7 +181,7 @@ ALTER TABLE `tutorials` MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREM
 ALTER TABLE `tutorial_translations` MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 ALTER TABLE `tutorial_pages` MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 ALTER TABLE `tutorial_page_translations` MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-ALTER TABLE `users` MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `users` MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Constraints for dumped tables
