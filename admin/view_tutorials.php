@@ -7,10 +7,6 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
-$result = $conn->query("SELECT t.id, t.title, t.is_premium, p.name AS topic_name FROM tutorials t JOIN topics p ON t.topic_id = p.id ORDER BY p.name, t.title ASC");
-?>
-
-<?php
 // The main query now needs to fetch the default language title for display
 $stmt = $conn->prepare("
     SELECT t.id, t.is_premium, tt.title, topic_trans.name as topic_name
@@ -22,6 +18,7 @@ $stmt = $conn->prepare("
 $stmt->bind_param("ss", $default_lang, $default_lang);
 $stmt->execute();
 $result = $stmt->get_result();
+$stmt->close();
 ?>
 <div class="row">
     <div class="col-md-12">

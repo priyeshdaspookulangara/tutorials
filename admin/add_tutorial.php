@@ -9,7 +9,11 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 $errors = [];
-$topics_result = $conn->query("SELECT t.id, tt.name FROM topics t JOIN topic_translations tt ON t.id = tt.topic_id WHERE tt.language = '{$default_lang}' ORDER BY tt.name ASC");
+$stmt_topics = $conn->prepare("SELECT t.id, tt.name FROM topics t JOIN topic_translations tt ON t.id = tt.topic_id WHERE tt.language = ? ORDER BY tt.name ASC");
+$stmt_topics->bind_param("s", $default_lang);
+$stmt_topics->execute();
+$topics_result = $stmt_topics->get_result();
+$stmt_topics->close();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $topic_id = (int)$_POST['topic_id'];
